@@ -12,6 +12,6 @@ def main():
 	engine = QQmlApplicationEngine()
 	engine.quit.connect(app.quit)
 	engine.load(os.path.join(directory, "qml/main.qml"))
-	sys.exit(app.exec_())
+	sys.exit(app.exec())
 if __name__ == "__main__":
 	main()
