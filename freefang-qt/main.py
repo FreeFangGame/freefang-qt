@@ -5,15 +5,19 @@ from PySide6.QtQml import QQmlApplicationEngine
 import os
 import sys
 import game_creation
+import game_join
 
 directory = os.path.dirname(os.path.realpath(__file__))
 
 def main():
 	game_creation_ui = game_creation.Game_creation()
+	game_join_ui = game_join.Game_join()
 	app = QApplication()
 	engine = QQmlApplicationEngine()
 	engine.quit.connect(app.quit)
 	engine.rootContext().setContextProperty("game_creation_ui", game_creation_ui)
+	engine.rootContext().setContextProperty("game_join_ui", game_join_ui)
+
 	engine.load(os.path.join(directory, "qml/main.qml"))
 
 	sys.exit(app.exec())

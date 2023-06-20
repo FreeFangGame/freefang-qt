@@ -6,7 +6,6 @@ import QtQuick.Controls.Material
 
 
 ColumnLayout{
-
 			anchors.fill: parent
 			spacing: 2
 				Rectangle { 
@@ -19,13 +18,13 @@ ColumnLayout{
 					Text {
 						anchors.centerIn: parent
 						font.pointSize: 24
-						text: "Game Creation"
+						text: "Game Join"
 					}
 				}
 
 				TextInput{
-					id: gamecreation_server
-					text: "127.0.0.1:9999"
+					id: gamejoin_server
+					text: gameserver
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
@@ -37,8 +36,21 @@ ColumnLayout{
 
 				}
 				TextInput{
-					id: gamecreation_playercap
-					text: "5"
+					id: gamejoin_gameid
+					text: gameid
+					Layout.alignment : Qt.AlignHCenter
+					Layout.maximumWidth: 300
+					Layout.minimumHeight: 75
+					font.pointSize: 24
+
+					Layout.fillWidth: true
+					color: 'black'
+
+
+				}
+				TextInput{
+					id: gamejoin_name
+					text: "Name here"
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
@@ -59,10 +71,8 @@ ColumnLayout{
 						border.width: 1
 					}
 					onClicked: {
-						game_creation_ui.create_game(gamecreation_server.text, gamecreation_playercap.text)
+						game_join_ui.join_game(gameserver, gamejoin_name.text, gameid)
 						stack.pop()
-						stack.push(Qt.createComponent("Join_Game.qml").createObject())
-
 					}
 
 				}
@@ -72,4 +82,3 @@ ColumnLayout{
 					Layout.fillHeight: true
 				}
 }
-

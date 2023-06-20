@@ -4,3 +4,11 @@ class Game_Creation:
 		self.headers = {
 			"playercap": playercap
 		}
+
+class Game_Join:
+	def __init__(self, name, gameid):
+		self.action = "game_join"
+		self.headers = {
+			"name": name,
+			"gameid": gameid
+		}

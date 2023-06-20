@@ -11,6 +11,24 @@ ApplicationWindow {
     visibility: "Maximized"
     title: "freefang-qt"
     property string version: "1.0.0"
+	property string gameid: "Game ID here"
+	property string gameserver: "ip:port"
+
+	property int playercap: 5
+	
+	Connections {
+			target: game_creation_ui
+
+			function onGameidupdated(msg) {
+				gameid = msg;
+				console.log(gameid)
+			}
+			function onGameserverupdated(msg) {
+				gameserver = msg;
+				console.log(gameserver)
+			}
+	}
+
 
     StackView {
 
@@ -45,6 +63,9 @@ ApplicationWindow {
 					Layout.minimumHeight: 75
 					background: Rectangle {
 						border.width: 1
+					}
+					onClicked: {
+						stack.push(Qt.createComponent("Join_Game.qml").createObject())
 					}
 
 				}
