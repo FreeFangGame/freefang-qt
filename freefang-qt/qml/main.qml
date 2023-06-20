@@ -57,6 +57,9 @@ ApplicationWindow {
 					background: Rectangle {
 						border.width: 1
 					}
+					onClicked: {
+						stack.push(Qt.createComponent("Create_Game.qml").createObject())
+					}
 				}
 
 				Button {
