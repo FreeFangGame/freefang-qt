@@ -6,6 +6,8 @@ import QtQuick.Controls.Material
 
 
 ColumnLayout{
+
+
 			anchors.fill: parent
 			spacing: 2
 				Rectangle { 
@@ -71,8 +73,20 @@ ColumnLayout{
 						border.width: 1
 					}
 					onClicked: {
-						game_join_ui.join_game(gameserver, gamejoin_name.text, gameid)
-						stack.pop()
+						game_join_ui.join_game(gameserver, gamejoin_name.text, gameid);
+						stack.pop();
+						var component = Qt.createComponent("Game_UI.qml");
+						if( component.status != Component.Ready )
+						{
+							if( component.status == Component.Error )
+								console.debug("Error:"+ component.errorString() );
+							return;
+						}else{
+							stack.push(component.createObject())
+							game_loop.start_game_loop()
+
+						}
+						
 					}
 
 				}
@@ -80,5 +94,13 @@ ColumnLayout{
 				Item {
 					// Spacer
 					Layout.fillHeight: true
+				}
+				Connections {
+						target: game_loop
+
+						function onChatupdate(msg) {
+							console.log(msg)
+							chatmodel.append({message: msg})
+						}
 				}
 }
