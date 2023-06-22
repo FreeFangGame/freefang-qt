@@ -17,4 +17,3 @@ class Game_join(QObject):
 		sock.connect((ip, int(port)))
 		net.send_packet(utils.object_to_json(packets.Game_Join(name=name, gameid=gameid)), sock)
 		global_data.socket = sock
-		print(net.read_packet(sock))
