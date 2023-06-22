@@ -95,12 +95,5 @@ ColumnLayout{
 					// Spacer
 					Layout.fillHeight: true
 				}
-				Connections {
-						target: game_loop
 
-						function onChatupdate(msg) {
-							console.log(msg)
-							chatmodel.append({message: msg})
-						}
-				}
 }

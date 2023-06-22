@@ -21,7 +21,7 @@ RowLayout{
 
 		ListModel {
 			 id: chatmodel
-			 ListElement { message: "0" }
+			 ListElement { message: "" }
 		}
 		id: gameui
 		anchors.fill: parent

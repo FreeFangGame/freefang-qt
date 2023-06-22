@@ -8,7 +8,5 @@ def json_to_object(data): # Turn json data into an object
 def object_to_json(obj):
 	return json.dumps(obj.__dict__)
 
-def packet_to_message(packet):
-	obj = json_to_object(packet)
-	
+
 	
