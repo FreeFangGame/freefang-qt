@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material 
 
 
-
 RowLayout{
 
 		Component {
@@ -95,7 +94,7 @@ RowLayout{
 						placeholderText: "Message"
 						height: 10
 						Layout.fillWidth: true
-					   
+						placeholderTextColor: "darkgray"
 						font.pointSize: 14
 
 						color: 'white'
