@@ -60,7 +60,9 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"{packet.headers.name} joined the game")
 		self.playeradd.emit(packet.headers.name)
 
-		
+	def handle_chat_message(self, packet):
+		self.chatupdate.emit(f"{packet.headers.sender}: {packet.headers.message}")
+
 
 	
 	def handle_packet(self, packet):
@@ -72,7 +74,8 @@ class Game_loop(QObject):
 			"town_vote": self.handle_town_vote,
 			"game_end": self.handle_game_end,
 			"added_to_game": self.handle_added_to_game,
-			"player_join": self.handle_player_join
+			"player_join": self.handle_player_join,
+			"chat_message": self.handle_chat_message
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -119,5 +122,10 @@ class Game_loop(QObject):
 		packet = utils.object_to_json(vt)
 		net.send_packet(packet, global_data.socket)
 		
+	@Slot(str)
+	def chat_message(self, msg):
+		msgpacket = packets.Town_message(msg)
+		packet = utils.object_to_json(msgpacket)
+		net.send_packet(packet, global_data.socket)
 		
-
+		

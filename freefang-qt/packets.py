@@ -26,3 +26,10 @@ class Werewolf_Vote:
 		self.headers = {
 			"target": name,
 		}
+
+class Town_message:
+	def __init__(self, message):
+		self.action = "town_message"
+		self.headers = {
+			"message": message,
+		}

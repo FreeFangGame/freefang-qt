@@ -53,23 +53,49 @@ RowLayout{
 		id: gameui
 		anchors.fill: parent
 		spacing: 0
-		ScrollView {
-		width: 200
-			Layout.fillHeight: true
-			Layout.fillWidth: true
-		   
-			ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-			ListView {
+		
+		ColumnLayout{
+
+			id: chatlayout
+			ScrollView {
+				width: 300
+				height: 180
 				Layout.fillHeight: true
 				Layout.fillWidth: true
 			   
-				id: chat
-				model: chatmodel
-				delegate: chatdelegate
+				ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+				ListView {
+					Layout.fillHeight: true
+					Layout.fillWidth: true
+				   
+					id: chat
+					model: chatmodel
+					delegate: chatdelegate
+
+				}
+
+		   }
+			TextField{
+					id: chat_input
+					placeholderText: "Message"
+					height: 10
+					Layout.fillWidth: true
+				   
+					font.pointSize: 14
+
+					color: 'black'
+					
+					Keys.onReturnPressed: {
+						game_loop.chat_message(chat_input.text)
+						chat_input.text = ""
+					}
+
 
 			}
 
-       }
+		   
+		}
+
 		ScrollView {
 		width: 100
 			Layout.fillHeight: true
