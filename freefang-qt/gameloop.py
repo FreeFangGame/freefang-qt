@@ -16,6 +16,7 @@ class Game_loop(QObject):
 	chatupdate = Signal(str, arguments=['message'])
 	playeradd = Signal(str, arguments=['player'])
 	setaction = Signal(str, arguments=['action'])
+	remove_buttons = Signal()
 	playername = ""
 
 
@@ -23,6 +24,7 @@ class Game_loop(QObject):
 		super(Game_loop, self).__init__()
 		
 	def handle_time_change(self, packet):
+		self.remove_buttons.emit()
 		if packet.headers.time == "day":
 			self.chatupdate.emit("The village wakes up")
 			self.setaction.emit("vote")
@@ -98,6 +100,7 @@ class Game_loop(QObject):
 	
 	@Slot(str)
 	def vote(self, player):
+		self.remove_buttons.emit()
 		vt = packets.Town_Vote(player)
 		packet = utils.object_to_json(vt)
 		net.send_packet(packet, global_data.socket)

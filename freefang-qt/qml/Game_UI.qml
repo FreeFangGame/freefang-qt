@@ -111,5 +111,10 @@ RowLayout{
 								}
 							}
 						}
+						function onRemove_buttons(){
+							for( var i = 0; i < playermodel.rowCount(); i++ ) {
+								playermodel.get(i).buttonsrc = "";
+							}
+						}
 				}
 }
