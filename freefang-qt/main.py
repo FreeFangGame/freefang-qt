@@ -11,10 +11,12 @@ import gameloop
 directory = os.path.dirname(os.path.realpath(__file__))
 
 def main():
+	os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+	os.environ["QT_QUICK_CONTROLS_MATERIAL_THEME"] = "Dark"
 	game_creation_ui = game_creation.Game_creation()
 	game_join_ui = game_join.Game_join()
 	game_loop_class = gameloop.Game_loop()
-	app = QApplication()
+	app = QApplication()	
 	engine = QQmlApplicationEngine()
 	engine.quit.connect(app.quit)
 	engine.rootContext().setContextProperty("game_creation_ui", game_creation_ui)

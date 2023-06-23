@@ -13,9 +13,8 @@ ApplicationWindow {
     property string version: "1.0.0"
 	property string gameid: "Game ID here"
 	property string gameserver: "ip:port"
-
 	property int playercap: 5
-	
+	color: "#202020"
 	Connections {
 			target: game_creation_ui
 
@@ -41,7 +40,6 @@ ApplicationWindow {
         id: mainmenu
         
 			ColumnLayout{
-			anchors.fill: parent
 				Rectangle { 
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.topMargin: 75
@@ -56,12 +54,13 @@ ApplicationWindow {
 					}
 				}
 				Button {
-					text: "Join Game"
+					text: "<font color=\"white\">Join Game</font>"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					background: Rectangle {
+						color: "black"
 						border.width: 1
 					}
 					onClicked: {
@@ -70,12 +69,14 @@ ApplicationWindow {
 
 				}
 				Button {
-					text: "Create Game"
+					text: "<font color=\"white\">Create Game</font>"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					background: Rectangle {
+						color: "black"
+
 						border.width: 1
 					}
 					onClicked: {
@@ -84,12 +85,14 @@ ApplicationWindow {
 				}
 
 				Button {
-					text: "Settings"
+					text: "<font color=\"white\">Settings</font>"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					background: Rectangle {
+						color: "black"
+
 						border.width: 1
 					}
 				}

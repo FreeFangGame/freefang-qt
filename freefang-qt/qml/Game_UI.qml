@@ -18,7 +18,8 @@ RowLayout{
 					Layout.fillHeight: true
 					Layout.fillWidth: true
 				Label {
-					text: player
+					text: " " + player
+					color: "white"
 				}
 				Loader{
 					    source: buttonsrc
@@ -39,7 +40,9 @@ RowLayout{
 			Item {
 				width: 200; height: 28
 				Label {
-					text: message
+					text: " " + message
+					color: "white"
+
 				}
 			}
 		}
@@ -54,65 +57,89 @@ RowLayout{
 		anchors.fill: parent
 		spacing: 0
 		
-		ColumnLayout{
+		Rectangle {
+			color: "black"
+			Layout.fillHeight: true
+			Layout.fillWidth: true
+			border.color: "#555555"
+			border.width: 2
+			width: 300
 
-			id: chatlayout
+
+			ColumnLayout{
+
+				id: chatlayout
+				height: parent.height
+				width: parent.width
+				ScrollView {
+					height: 180
+					Layout.fillHeight: true
+					Layout.fillWidth: true
+
+					ScrollBar.vertical.policy: ScrollBar.AsNeeded
+					ListView {
+						anchors.topMargin: 20
+						anchors.leftMargin: 50
+						Layout.fillHeight: true
+						Layout.fillWidth: true
+					   
+						id: chat
+						model: chatmodel
+						delegate: chatdelegate
+
+					}
+
+			   }
+				TextField{
+						id: chat_input
+						placeholderText: "Message"
+						height: 10
+						Layout.fillWidth: true
+					   
+						font.pointSize: 14
+
+						color: 'white'
+						Keys.onReturnPressed: {
+							game_loop.chat_message(chat_input.text)
+							chat_input.text = ""
+						}
+
+
+				}
+		}
+
+
+
+
+		   
+		}
+		Rectangle {
+			color: "black"
+			border.color: "#555555"
+			border.width: 2		
+			Layout.fillHeight: true
+			Layout.fillWidth: true	
+			width: 100
+
 			ScrollView {
-				width: 300
-				height: 180
-				Layout.fillHeight: true
-				Layout.fillWidth: true
+			
+				width: parent.width
+				height: parent.height
 			   
-				ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+				ScrollBar.vertical.policy: ScrollBar.AsNeeded
 				ListView {
 					Layout.fillHeight: true
 					Layout.fillWidth: true
 				   
-					id: chat
-					model: chatmodel
-					delegate: chatdelegate
+					id: players
+					model: playermodel
+					delegate: playerdelegate
 
 				}
 
 		   }
-			TextField{
-					id: chat_input
-					placeholderText: "Message"
-					height: 10
-					Layout.fillWidth: true
-				   
-					font.pointSize: 14
-
-					color: 'black'
-					
-					Keys.onReturnPressed: {
-						game_loop.chat_message(chat_input.text)
-						chat_input.text = ""
-					}
-
-
-			}
-
-		   
 		}
 
-		ScrollView {
-		width: 100
-			Layout.fillHeight: true
-			Layout.fillWidth: true
-		   
-			ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-			ListView {
-				Layout.fillHeight: true
-				Layout.fillWidth: true
-			   
-				id: players
-				model: playermodel
-				delegate: playerdelegate
-
-			}
-
-       }
 				Connections {
 						target: game_loop
 

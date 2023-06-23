@@ -41,7 +41,7 @@ class Game_loop(QObject):
 
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
-		if packet.headers.role == "Werewolf":
+		if packet.headers.role == "Werewolf" and self.role == "Werewolf":
 			self.setaction.emit("werewolfvote")
 		self.up = packet.headers.role
 
@@ -53,6 +53,7 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
 		
 	def handle_game_end(self, packet):
+		self.remove_buttons.emit()
 		if packet.headers.outcome == "werewolf_win":
 			self.chatupdate.emit("The werewolves have won")
 		elif packet.headers.outcome == "town_win":
@@ -99,7 +100,7 @@ class Game_loop(QObject):
 				packet = net.read_packet(global_data.socket)
 				obj = utils.json_to_object(packet)
 				if self.handle_packet(obj):
-					self.chatupdate.emit(packet)
+					pass #self.chatupdate.emit(packet)
 			except:
 				return
 				

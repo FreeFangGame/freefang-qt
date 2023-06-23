@@ -8,7 +8,6 @@ import QtQuick.Controls.Material
 ColumnLayout{
 
 
-			anchors.fill: parent
 			spacing: 10
 				Rectangle { 
 					Layout.alignment : Qt.AlignHCenter | Qt.AlignTop
@@ -32,9 +31,9 @@ ColumnLayout{
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					font.pointSize: 24
+					color: "white"
 
 					Layout.fillWidth: true
-					color: 'black'
 
 
 				}
@@ -46,9 +45,9 @@ ColumnLayout{
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					font.pointSize: 24
+					color: "white"
 
 					Layout.fillWidth: true
-					color: 'black'
 
 
 				}
@@ -61,18 +60,19 @@ ColumnLayout{
 					font.pointSize: 24
 
 					Layout.fillWidth: true
-					color: 'black'
-
+					color: "white"
 
 				}
 				Button {
-					text: "Done"
+					text: "<font color=\"white\">Done</font>"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					background: Rectangle {
 						border.width: 1
+						color: "black"
+
 					}
 					onClicked: {
 						game_join_ui.join_game(gamejoin_server.text, gamejoin_name.text, gamejoin_gameid.text);

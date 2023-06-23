@@ -7,7 +7,6 @@ import QtQuick.Controls.Material
 
 ColumnLayout{
 
-			anchors.fill: parent
 			spacing: 10
 				Rectangle { 
 					Layout.alignment : Qt.AlignHCenter | Qt.AlignTop
@@ -27,13 +26,14 @@ ColumnLayout{
 					id: gamecreation_server
 					placeholderText: "Server"
 					text: "127.0.0.1:9999"
+					color: "white"
+
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					font.pointSize: 24
 
 					Layout.fillWidth: true
-					color: 'black'
 
 
 				}
@@ -45,20 +45,20 @@ ColumnLayout{
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					font.pointSize: 24
-
+					color: "white"
 					Layout.fillWidth: true
-					color: 'black'
 
 
 				}
 				Button {
-					text: "Done"
+					text: "<font color=\"white\">Done</font>"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
 					background: Rectangle {
 						border.width: 1
+						color: "black"
 					}
 					onClicked: {
 						game_creation_ui.create_game(gamecreation_server.text, gamecreation_playercap.text)
