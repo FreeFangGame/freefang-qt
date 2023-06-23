@@ -36,16 +36,22 @@ class Game_loop(QObject):
 
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
+		if packet.headers.role == "Werewolf":
+			self.setaction.emit("werewolfvote")
+
 			
 	def handle_player_death(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} died, he had the role {packet.headers.role}")
+		
 	def handle_town_vote(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
+		
 	def handle_game_end(self, packet):
 		if packet.headers.outcome == "werewolf_win":
 			self.chatupdate.emit("The werewolves have won")
 		elif packet.headers.outcome == "town_win":
 			self.chatupdate.emit("The village has won")
+			
 	def handle_added_to_game(self, packet):
 		self.chatupdate.emit("You have joined the game")
 		for i in packet.headers.players:
@@ -106,6 +112,12 @@ class Game_loop(QObject):
 		net.send_packet(packet, global_data.socket)
 		
 		
+	@Slot(str)
+	def werewolfvote(self, player):
+		self.remove_buttons.emit()
+		vt = packets.Werewolf_Vote(player)
+		packet = utils.object_to_json(vt)
+		net.send_packet(packet, global_data.socket)
 		
-
+		
 

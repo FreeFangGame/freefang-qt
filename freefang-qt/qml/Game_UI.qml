@@ -102,8 +102,14 @@ RowLayout{
 						}
 						function onSetaction(act){
 							var btn = "";
-							if (act == "vote"){
-								btn = "VoteButton.qml";
+							switch(act){
+								case "vote":
+									btn = "VoteButton.qml";
+									break
+								case "werewolfvote":
+									btn = "Werewolfvotebutton.qml";
+									break
+
 							}
 							for( var i = 0; i < playermodel.rowCount(); i++ ) {
 								if (playermodel.get(i).player != game_loop.playername){

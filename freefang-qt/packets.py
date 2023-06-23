@@ -19,3 +19,10 @@ class Town_Vote:
 		self.headers = {
 			"target": name,
 		}
+
+class Werewolf_Vote:
+	def __init__(self, name):
+		self.action = "werewolf_vote"
+		self.headers = {
+			"target": name,
+		}
