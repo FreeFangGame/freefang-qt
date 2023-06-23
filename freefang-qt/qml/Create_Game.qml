@@ -8,7 +8,7 @@ import QtQuick.Controls.Material
 ColumnLayout{
 
 			anchors.fill: parent
-			spacing: 2
+			spacing: 10
 				Rectangle { 
 					Layout.alignment : Qt.AlignHCenter | Qt.AlignTop
 					Layout.topMargin: 75
@@ -23,8 +23,9 @@ ColumnLayout{
 					}
 				}
 
-				TextInput{
+				TextField{
 					id: gamecreation_server
+					placeholderText: "Server"
 					text: "127.0.0.1:9999"
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
@@ -36,8 +37,9 @@ ColumnLayout{
 
 
 				}
-				TextInput{
+				TextField{
 					id: gamecreation_playercap
+					placeholderText: "Players"
 					text: "5"
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300

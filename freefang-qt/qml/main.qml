@@ -6,8 +6,8 @@ import QtQuick.Controls.Material
 
 ApplicationWindow {
     visible: true
-    width: 1920
-    height: 1080
+    width: 700
+    height: 500
     visibility: "Maximized"
     title: "freefang-qt"
     property string version: "1.0.0"

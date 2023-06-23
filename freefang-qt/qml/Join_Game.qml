@@ -9,7 +9,7 @@ ColumnLayout{
 
 
 			anchors.fill: parent
-			spacing: 2
+			spacing: 10
 				Rectangle { 
 					Layout.alignment : Qt.AlignHCenter | Qt.AlignTop
 					Layout.topMargin: 75
@@ -24,8 +24,9 @@ ColumnLayout{
 					}
 				}
 
-				TextInput{
+				TextField{
 					id: gamejoin_server
+					placeholderText: "Server"
 					text: gameserver
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
@@ -37,8 +38,9 @@ ColumnLayout{
 
 
 				}
-				TextInput{
+				TextField{
 					id: gamejoin_gameid
+					placeholderText: "Game ID"
 					text: gameid
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
@@ -50,9 +52,9 @@ ColumnLayout{
 
 
 				}
-				TextInput{
+				TextField{
 					id: gamejoin_name
-					text: "Name here"
+					placeholderText: "Name"
 					Layout.alignment : Qt.AlignHCenter
 					Layout.maximumWidth: 300
 					Layout.minimumHeight: 75
