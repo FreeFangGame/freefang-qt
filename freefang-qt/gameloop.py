@@ -18,6 +18,9 @@ class Game_loop(QObject):
 	setaction = Signal(str, arguments=['action'])
 	remove_buttons = Signal()
 	playername = ""
+	time = ""
+	up = ""
+	role = ""
 
 
 	def __init__(self):
@@ -30,14 +33,17 @@ class Game_loop(QObject):
 			self.setaction.emit("vote")
 		else:
 			self.chatupdate.emit("The village falls asleep")
+		self.time = packet.headers.time
 			
 	def handle_role_attribution(self, packet):
 		self.chatupdate.emit(f"You have been attributed the role {packet.headers.role}")
+		self.role = packet.headers.role
 
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
 		if packet.headers.role == "Werewolf":
 			self.setaction.emit("werewolfvote")
+		self.up = packet.headers.role
 
 			
 	def handle_player_death(self, packet):
@@ -124,8 +130,12 @@ class Game_loop(QObject):
 		
 	@Slot(str)
 	def chat_message(self, msg):
-		msgpacket = packets.Town_message(msg)
+		msgpacket = 0
+		if self.time == "day":
+			msgpacket = packets.Town_message(msg)
+		elif self.up == "Werewolf" and self.role == "Werewolf":
+			msgpacket = packets.Werewolf_message(msg)	
 		packet = utils.object_to_json(msgpacket)
 		net.send_packet(packet, global_data.socket)
-		
-		
+			
+			

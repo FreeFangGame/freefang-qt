@@ -33,3 +33,10 @@ class Town_message:
 		self.headers = {
 			"message": message,
 		}
+		
+class Werewolf_message:
+	def __init__(self, message):
+		self.action = "werewolf_message"
+		self.headers = {
+			"message": message,
+		}
