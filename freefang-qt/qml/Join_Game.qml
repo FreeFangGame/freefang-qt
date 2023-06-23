@@ -73,7 +73,7 @@ ColumnLayout{
 						border.width: 1
 					}
 					onClicked: {
-						game_join_ui.join_game(gameserver, gamejoin_name.text, gameid);
+						game_join_ui.join_game(gamejoin_server.text, gamejoin_name.text, gamejoin_gameid.text);
 						stack.pop();
 						var component = Qt.createComponent("Game_UI.qml");
 						if( component.status != Component.Ready )
@@ -83,7 +83,9 @@ ColumnLayout{
 							return;
 						}else{
 							stack.push(component.createObject())
+							game_loop.playername = gamejoin_name.text
 							game_loop.start_game_loop()
+							
 
 						}
 						

@@ -12,3 +12,10 @@ class Game_Join:
 			"name": name,
 			"gameid": gameid
 		}
+
+class Town_Vote:
+	def __init__(self, name):
+		self.action = "town_vote"
+		self.headers = {
+			"target": name,
+		}

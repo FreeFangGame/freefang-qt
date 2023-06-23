@@ -15,6 +15,9 @@ class Game_loop(QObject):
 	
 	chatupdate = Signal(str, arguments=['message'])
 	playeradd = Signal(str, arguments=['player'])
+	setaction = Signal(str, arguments=['action'])
+	playername = ""
+
 
 	def __init__(self):
 		super(Game_loop, self).__init__()
@@ -22,6 +25,7 @@ class Game_loop(QObject):
 	def handle_time_change(self, packet):
 		if packet.headers.time == "day":
 			self.chatupdate.emit("The village wakes up")
+			self.setaction.emit("vote")
 		else:
 			self.chatupdate.emit("The village falls asleep")
 			
@@ -30,6 +34,7 @@ class Game_loop(QObject):
 
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
+			
 	def handle_player_death(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} died, he had the role {packet.headers.role}")
 	def handle_town_vote(self, packet):
@@ -37,7 +42,7 @@ class Game_loop(QObject):
 	def handle_game_end(self, packet):
 		if packet.headers.outcome == "werewolf_win":
 			self.chatupdate.emit("The werewolves have won")
-		elif packet.headers.outcome == "village_win":
+		elif packet.headers.outcome == "town_win":
 			self.chatupdate.emit("The village has won")
 	def handle_added_to_game(self, packet):
 		self.chatupdate.emit("You have joined the game")
@@ -80,6 +85,7 @@ class Game_loop(QObject):
 					self.chatupdate.emit(packet)
 			except:
 				return
+				
 		
 	@Slot()
 	def start_game_loop(self):
@@ -89,6 +95,13 @@ class Game_loop(QObject):
 		self.timer.setInterval(100)
 		self.timer.timeout.connect(self.select_loop)
 		self.timer.start()
+	
+	@Slot(str)
+	def vote(self, player):
+		vt = packets.Town_Vote(player)
+		packet = utils.object_to_json(vt)
+		net.send_packet(packet, global_data.socket)
+		
 		
 		
 

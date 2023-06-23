@@ -8,13 +8,30 @@ import QtQuick.Controls.Material
 
 
 RowLayout{
+
 		Component {
 			id: playerdelegate
+
 			Item {
 				width: 200; height: 28
+				RowLayout{
+					Layout.fillHeight: true
+					Layout.fillWidth: true
 				Label {
 					text: player
 				}
+				Loader{
+					    source: buttonsrc
+						focus: true
+						
+						onLoaded: {
+							item.player = player
+							console.log(player)
+						}
+
+				}
+				}
+
 			}
 		}
 		Component {
@@ -29,11 +46,9 @@ RowLayout{
 
 		ListModel {
 			 id: chatmodel
-			 ListElement { message: "" }
 		}
 		ListModel {
 			 id: playermodel
-			 ListElement { player: "" }
 		}
 		id: gameui
 		anchors.fill: parent
@@ -81,7 +96,20 @@ RowLayout{
 						}
 						function onPlayeradd(spl){
 							console.log(spl)
-							playermodel.append({player: spl})
+
+							playermodel.append({player: spl, buttonsrc: ""})
+
+						}
+						function onSetaction(act){
+							var btn = "";
+							if (act == "vote"){
+								btn = "VoteButton.qml";
+							}
+							for( var i = 0; i < playermodel.rowCount(); i++ ) {
+								if (playermodel.get(i).player != game_loop.playername){
+									playermodel.get(i).buttonsrc = btn;
+								}
+							}
 						}
 				}
 }
