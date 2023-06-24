@@ -12,7 +12,7 @@ ApplicationWindow {
     title: "freefang-qt"
     property string version: "1.0.0"
 	property string gameid: "Game ID here"
-	property string gameserver: "ip:port"
+	property string gameserver: "127.0.0.1:9999"
 	property int playercap: 5
 	color: "#202020"
 	Connections {

@@ -154,6 +154,9 @@ RowLayout{
 						}
 						function onSetaction(act){
 							var btn = "";
+							if (!game_loop.isalive(game_loop.playername)){
+								return;
+							}
 							switch(act){
 								case "vote":
 									btn = "VoteButton.qml";
