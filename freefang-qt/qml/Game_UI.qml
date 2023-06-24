@@ -164,6 +164,9 @@ RowLayout{
 								case "werewolfvote":
 									btn = "Werewolfvotebutton.qml";
 									break
+								case "seerreveal":
+									btn = "SeerRevealButton.qml";
+									break
 
 							}
 							for( var i = 0; i < playermodel.rowCount(); i++ ) {

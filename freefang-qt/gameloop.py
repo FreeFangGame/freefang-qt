@@ -49,6 +49,9 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
 		if packet.headers.role == "Werewolf" and self.role == "Werewolf":
 			self.setaction.emit("werewolfvote")
+		elif packet.headers.role == "Seer" and self.role == "Seer":
+			self.setaction.emit("seerreveal")
+			
 		self.up = packet.headers.role
 
 			
@@ -80,6 +83,10 @@ class Game_loop(QObject):
 
 	def handle_chat_message(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender}: {packet.headers.message}")
+		
+	def handle_seer_role_reveal(self, packet):
+		self.chatupdate.emit(f"{packet.headers.name} has the role {packet.headers.role}")
+		
 
 	def getplayerbyname(self, player):
 		return [i for i in self.players if i.name == player][0]
@@ -102,7 +109,8 @@ class Game_loop(QObject):
 			"game_end": self.handle_game_end,
 			"added_to_game": self.handle_added_to_game,
 			"player_join": self.handle_player_join,
-			"chat_message": self.handle_chat_message
+			"chat_message": self.handle_chat_message,
+			"seer_role_reveal": self.handle_seer_role_reveal
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -158,5 +166,13 @@ class Game_loop(QObject):
 			msgpacket = packets.Werewolf_message(msg)	
 		packet = utils.object_to_json(msgpacket)
 		net.send_packet(packet, global_data.socket)
-			
+		
+	@Slot(str)
+	def seer_reveal(self, player):
+		self.remove_buttons.emit()
+
+		packet = utils.object_to_json(packets.Seer_reveal(player))
+		net.send_packet(packet, global_data.socket)
+
+		
 			

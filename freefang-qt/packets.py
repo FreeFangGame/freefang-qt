@@ -40,3 +40,11 @@ class Werewolf_message:
 		self.headers = {
 			"message": message,
 		}
+		
+class Seer_reveal:
+	def __init__(self, target):
+		self.action = "seer_reveal"
+		self.headers = {
+			"target": target
+		}
+
