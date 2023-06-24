@@ -8,7 +8,12 @@ from data import global_data
 
 
 
-
+class Player:
+	def __init__(self, name):
+		self.name = name
+		self.role = None
+		self.alive = True
+		
 
 class Game_loop(QObject):
 	
@@ -21,6 +26,7 @@ class Game_loop(QObject):
 	time = ""
 	up = ""
 	role = ""
+	players = []
 
 
 	def __init__(self):
@@ -48,6 +54,7 @@ class Game_loop(QObject):
 			
 	def handle_player_death(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} died, he had the role {packet.headers.role}")
+		self.getplayerbyname(packet.headers.name).alive = False
 		
 	def handle_town_vote(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
@@ -66,11 +73,22 @@ class Game_loop(QObject):
 	def handle_player_join(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} joined the game")
 		self.playeradd.emit(packet.headers.name)
+		spl = Player(packet.headers.name)
+		self.players.append(spl)
 
 	def handle_chat_message(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender}: {packet.headers.message}")
 
+	def getplayerbyname(self, player):
+		return [i for i in self.players if i.name == player][0]
 
+	@Slot(str, result=bool)
+	def isalive(self, player):
+		print(player)
+		print(self.players)
+		spl = self.getplayerbyname(player)
+		return spl.alive
+		
 	
 	def handle_packet(self, packet):
 		packet_to_func = {

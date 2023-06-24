@@ -164,7 +164,7 @@ RowLayout{
 
 							}
 							for( var i = 0; i < playermodel.rowCount(); i++ ) {
-								if (playermodel.get(i).player != game_loop.playername){
+								if (playermodel.get(i).player != game_loop.playername && game_loop.isalive(playermodel.get(i).player)){
 									playermodel.get(i).buttonsrc = btn;
 								}
 							}
