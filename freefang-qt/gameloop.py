@@ -70,6 +70,8 @@ class Game_loop(QObject):
 		self.chatupdate.emit("You have joined the game")
 		for i in packet.headers.players:
 			self.playeradd.emit(i)
+			spl = Player(i)
+			self.players.append(spl)
 	def handle_player_join(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} joined the game")
 		self.playeradd.emit(packet.headers.name)
