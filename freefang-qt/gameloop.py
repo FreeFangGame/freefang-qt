@@ -57,7 +57,17 @@ class Game_loop(QObject):
 			
 	def handle_player_death(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} died, he had the role {packet.headers.role}")
+		
+		if packet.headers.name == self.playername:
+			self.chatupdate.emit("You have died, you are now a spectator")
+			if self.role == "Hunter":
+				self.chatupdate.emit("You were the hunter, pick a player to kill.")
+				print(f"Role: {self.role}")
+
+				self.setaction.emit("hunterkill")
 		self.getplayerbyname(packet.headers.name).alive = False
+
+
 		
 	def handle_town_vote(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
@@ -75,6 +85,7 @@ class Game_loop(QObject):
 			self.playeradd.emit(i)
 			spl = Player(i)
 			self.players.append(spl)
+		self.playername = packet.headers.username
 	def handle_player_join(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} joined the game")
 		self.playeradd.emit(packet.headers.name)
@@ -172,6 +183,13 @@ class Game_loop(QObject):
 		self.remove_buttons.emit()
 
 		packet = utils.object_to_json(packets.Seer_reveal(player))
+		net.send_packet(packet, global_data.socket)
+
+	@Slot(str)
+	def hunter_kill(self, player):
+		self.remove_buttons.emit()
+		
+		packet = utils.object_to_json(packets.Hunter_kill(player))
 		net.send_packet(packet, global_data.socket)
 
 		

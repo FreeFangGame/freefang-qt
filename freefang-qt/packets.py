@@ -48,3 +48,9 @@ class Seer_reveal:
 			"target": target
 		}
 
+class Hunter_kill:
+	def __init__(self, target):
+		self.action = "hunter_kill"
+		self.headers = {
+			"target": target
+		}
