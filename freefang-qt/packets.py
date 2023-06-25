@@ -1,8 +1,9 @@
 class Game_Creation:
-	def __init__(self, playercap):
+	def __init__(self, playercap, ruleset):
 		self.action = "game_create"
 		self.headers = {
-			"playercap": playercap
+			"playercap": playercap,
+			"ruleset": ruleset
 		}
 
 class Game_Join:

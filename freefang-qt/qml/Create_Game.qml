@@ -50,6 +50,13 @@ ColumnLayout{
 
 
 				}
+				TextArea{
+					id: ruleset
+					text: "Ruleset"
+					Layout.alignment : Qt.AlignHCenter 
+					Layout.fillWidth: true
+					Layout.maximumWidth: 300
+				}
 				Button {
 					text: "<font color=\"white\">Done</font>"
 					Layout.alignment : Qt.AlignHCenter 
@@ -61,7 +68,7 @@ ColumnLayout{
 						color: "black"
 					}
 					onClicked: {
-						game_creation_ui.create_game(gamecreation_server.text, gamecreation_playercap.text)
+						game_creation_ui.create_game(gamecreation_server.text, gamecreation_playercap.text, ruleset.text)
 						stack.pop()
 						stack.push(Qt.createComponent("Join_Game.qml").createObject())
 
