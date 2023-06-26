@@ -30,3 +30,4 @@ class Game_creation(QObject):
 		packet = utils.json_to_object(resp)
 		self.gameidupdated.emit(packet.headers.id)
 		self.gameserverupdated.emit(s)
+		sock.close()

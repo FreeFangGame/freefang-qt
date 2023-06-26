@@ -152,6 +152,14 @@ RowLayout{
 							playermodel.append({player: spl, buttonsrc: ""})
 
 						}
+						function onPlayerrm(spl){
+							for( var i = 0; i < playermodel.rowCount(); i++ ) {
+								if (playermodel.get(i).player == spl){
+									playermodel.remove(i)
+								}
+							}
+							
+						}
 						function onSetaction(act){
 							var btn = "";
 							if (!game_loop.isalive(game_loop.playername)){

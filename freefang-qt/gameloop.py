@@ -20,6 +20,7 @@ class Game_loop(QObject):
 	
 	chatupdate = Signal(str, arguments=['message'])
 	playeradd = Signal(str, arguments=['player'])
+	playerrm = Signal(str, arguments=['player'])
 	setaction = Signal(str, arguments=['action'])
 	remove_buttons = Signal()
 	playername = ""
@@ -100,6 +101,10 @@ class Game_loop(QObject):
 	def begin_town_vote(self, packet):
 		self.chatupdate.emit("The town may now vote")
 		self.setaction.emit("vote")
+	def handle_leave(self, packet):
+		self.chatupdate.emit(f"{packet.headers.name} disconnected")
+		self.playerrm.emit(packet.headers.name)
+
 		
 
 	def getplayerbyname(self, player):
@@ -125,7 +130,8 @@ class Game_loop(QObject):
 			"player_join": self.handle_player_join,
 			"chat_message": self.handle_chat_message,
 			"seer_role_reveal": self.handle_seer_role_reveal,
-			"town_vote_begin": self.begin_town_vote
+			"town_vote_begin": self.begin_town_vote,
+			"player_leave": self.handle_leave
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -143,7 +149,7 @@ class Game_loop(QObject):
 				packet = net.read_packet(global_data.socket)
 				obj = utils.json_to_object(packet)
 				if self.handle_packet(obj):
-					pass #self.chatupdate.emit(packet)
+					pass
 			except:
 				return
 				
@@ -153,7 +159,7 @@ class Game_loop(QObject):
 		print("Starting timer")
 		global_data.socket.setblocking(0)
 		self.timer = QTimer()
-		self.timer.setInterval(100)
+		self.timer.setInterval(700)
 		self.timer.timeout.connect(self.select_loop)
 		self.timer.start()
 	
