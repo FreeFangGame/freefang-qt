@@ -36,7 +36,7 @@ class Game_loop(QObject):
 		self.remove_buttons.emit()
 		if packet.headers.time == "day":
 			self.chatupdate.emit("The village wakes up")
-			self.setaction.emit("vote")
+
 		else:
 			self.chatupdate.emit("The village falls asleep")
 		self.time = packet.headers.time
@@ -97,6 +97,9 @@ class Game_loop(QObject):
 		
 	def handle_seer_role_reveal(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} has the role {packet.headers.role}")
+	def begin_town_vote(self, packet):
+		self.chatupdate.emit("The town may now vote")
+		self.setaction.emit("vote")
 		
 
 	def getplayerbyname(self, player):
@@ -121,7 +124,8 @@ class Game_loop(QObject):
 			"added_to_game": self.handle_added_to_game,
 			"player_join": self.handle_player_join,
 			"chat_message": self.handle_chat_message,
-			"seer_role_reveal": self.handle_seer_role_reveal
+			"seer_role_reveal": self.handle_seer_role_reveal,
+			"town_vote_begin": self.begin_town_vote
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
