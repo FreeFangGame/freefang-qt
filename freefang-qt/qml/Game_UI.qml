@@ -14,19 +14,18 @@ RowLayout{
 			Item {
 				width: 200; height: 28
 				RowLayout{
-					Layout.fillHeight: true
-					Layout.fillWidth: true
+					width: parent.width
+					height: 10
 				Label {
 					text: " " + player
 					color: "white"
+					font.pixelSize: 23
 				}
 				Loader{
 					    source: buttonsrc
-						focus: true
 						
 						onLoaded: {
 							item.player = player
-							console.log(player)
 						}
 
 				}
@@ -127,6 +126,7 @@ RowLayout{
 			   
 				ScrollBar.vertical.policy: ScrollBar.AsNeeded
 				ListView {
+					spacing: 13
 					Layout.fillHeight: true
 					Layout.fillWidth: true
 				   

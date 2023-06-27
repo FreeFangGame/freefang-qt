@@ -159,7 +159,7 @@ class Game_loop(QObject):
 		print("Starting timer")
 		global_data.socket.setblocking(0)
 		self.timer = QTimer()
-		self.timer.setInterval(700)
+		self.timer.setInterval(300)
 		self.timer.timeout.connect(self.select_loop)
 		self.timer.start()
 	
