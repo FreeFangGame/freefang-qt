@@ -62,3 +62,9 @@ class Hunter_kill:
 		self.headers = {
 			"target": target
 		}
+class Protector_protect:
+	def __init__(self, target):
+		self.action = "protector_protect"
+		self.headers = {
+			"target": target
+		}

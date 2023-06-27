@@ -178,7 +178,9 @@ RowLayout{
 								case "hunterkill":
 									btn = "HunterKillButton.qml";
 									break
-
+								case "protectorprotect":
+									btn = "ProtectorProtectButton.qml";
+									break
 							}
 							for( var i = 0; i < playermodel.rowCount(); i++ ) {
 								if (playermodel.get(i).player != game_loop.playername && game_loop.isalive(playermodel.get(i).player)){

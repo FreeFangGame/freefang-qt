@@ -49,10 +49,14 @@ class Game_loop(QObject):
 
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
+		
+		# TODO: Replace this if else hell by something decent
 		if packet.headers.role == "Werewolf" and self.role == "Werewolf":
 			self.setaction.emit("werewolfvote")
 		elif packet.headers.role == "Seer" and self.role == "Seer":
 			self.setaction.emit("seerreveal")
+		elif packet.headers.role == "Protector" and self.role == "Protector":
+			self.setaction.emit("protectorprotect")
 			
 		self.up = packet.headers.role
 
@@ -203,6 +207,12 @@ class Game_loop(QObject):
 		self.remove_buttons.emit()
 		
 		packet = utils.object_to_json(packets.Hunter_kill(player))
+		net.send_packet(packet, global_data.socket)
+
+	@Slot(str)
+	def protector_protect(self, player):
+		self.remove_buttons.emit()
+		packet = utils.object_to_json(packets.Protector_protect(player))
 		net.send_packet(packet, global_data.socket)
 
 		
