@@ -28,6 +28,7 @@ class Game_loop(QObject):
 	up = ""
 	role = ""
 	players = []
+	game_started = False
 
 
 	def __init__(self):
@@ -185,6 +186,8 @@ class Game_loop(QObject):
 			msgpacket = packets.Town_message(msg)
 		elif self.up == "Werewolf" and self.role == "Werewolf":
 			msgpacket = packets.Werewolf_message(msg)	
+		elif self.role == "":
+			msgpacket = packets.Pre_game_message(msg)
 		packet = utils.object_to_json(msgpacket)
 		net.send_packet(packet, global_data.socket)
 		

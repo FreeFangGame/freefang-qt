@@ -42,6 +42,13 @@ class Werewolf_message:
 			"message": message,
 		}
 		
+class Pre_game_message:
+	def __init__(self, message):
+		self.action = "pre_game_message"
+		self.headers = {
+			"message": message,
+		}
+		
 class Seer_reveal:
 	def __init__(self, target):
 		self.action = "seer_reveal"
