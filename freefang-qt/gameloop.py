@@ -21,6 +21,8 @@ class Game_loop(QObject):
 	chatupdate = Signal(str, arguments=['message'])
 	playeradd = Signal(str, arguments=['player'])
 	playerrm = Signal(str, arguments=['player'])
+	# See Game_UI.qml
+
 	setaction = Signal(str, arguments=['action'])
 	remove_buttons = Signal()
 	playername = ""
@@ -50,15 +52,19 @@ class Game_loop(QObject):
 	def handle_role_wakeup(self, packet):
 		self.chatupdate.emit(f"The role: {packet.headers.role} wakes up")
 		
-		# TODO: Replace this if else hell by something decent
-		if packet.headers.role == "Werewolf" and self.role == "Werewolf":
-			self.setaction.emit("werewolfvote")
-		elif packet.headers.role == "Seer" and self.role == "Seer":
-			self.setaction.emit("seerreveal")
-		elif packet.headers.role == "Protector" and self.role == "Protector":
-			self.setaction.emit("protectorprotect")
-			
+		# Associate different roles to their action buttons
+		role_to_btn = {
+			"Werewolf": "Werewolfvote",
+			"Seer": "SeerReveal",
+			"Hunter": "HunterKill",
+			"Protector": "ProtectorProtect"
+		}
+		
+		btn = role_to_btn[packet.headers.role]
 		self.up = packet.headers.role
+		
+		if packet.headers.role == self.role:
+			self.setaction.emit(btn)
 
 			
 	def handle_player_death(self, packet):
@@ -70,7 +76,7 @@ class Game_loop(QObject):
 				self.chatupdate.emit("You were the hunter, pick a player to kill.")
 				print(f"Role: {self.role}")
 
-				self.setaction.emit("hunterkill")
+				self.setaction.emit("HunterKill")
 		self.getplayerbyname(packet.headers.name).alive = False
 
 
@@ -105,7 +111,7 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"{packet.headers.name} has the role {packet.headers.role}")
 	def begin_town_vote(self, packet):
 		self.chatupdate.emit("The town may now vote")
-		self.setaction.emit("vote")
+		self.setaction.emit("Vote")
 	def handle_leave(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} disconnected")
 		self.playerrm.emit(packet.headers.name)
@@ -186,6 +192,7 @@ class Game_loop(QObject):
 	@Slot(str)
 	def chat_message(self, msg):
 		msgpacket = 0
+		
 		if self.time == "day":
 			msgpacket = packets.Town_message(msg)
 		elif self.up == "Werewolf" and self.role == "Werewolf":
