@@ -116,6 +116,9 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"{packet.headers.name} disconnected")
 		self.playerrm.emit(packet.headers.name)
 
+	def handle_werewolf_vote(self, packet):
+		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
+
 		
 
 	def getplayerbyname(self, player):
@@ -142,7 +145,8 @@ class Game_loop(QObject):
 			"chat_message": self.handle_chat_message,
 			"seer_role_reveal": self.handle_seer_role_reveal,
 			"town_vote_begin": self.begin_town_vote,
-			"player_leave": self.handle_leave
+			"player_leave": self.handle_leave,
+			"werewolf_vote": self.handle_werewolf_vote
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -163,6 +167,7 @@ class Game_loop(QObject):
 					pass
 			except:
 				return
+			
 				
 		
 	@Slot()
