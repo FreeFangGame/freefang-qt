@@ -52,7 +52,7 @@ ColumnLayout{
 				}
 				TextArea{
 					id: ruleset
-					text: "Villager: 4\nWerewolf: 1"
+					text: "Villager: 4\nWerewolf: 1\ntown_voting_scheme: relmaj\nwerewolf_voting_scheme: unanimity"
 					Layout.alignment : Qt.AlignHCenter 
 					Layout.fillWidth: true
 					Layout.maximumWidth: 300
