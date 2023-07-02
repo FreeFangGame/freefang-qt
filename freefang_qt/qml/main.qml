@@ -20,11 +20,9 @@ ApplicationWindow {
 
 			function onGameidupdated(msg) {
 				gameid = msg;
-				console.log(gameid)
 			}
 			function onGameserverupdated(msg) {
 				gameserver = msg;
-				console.log(gameserver)
 			}
 	}
 

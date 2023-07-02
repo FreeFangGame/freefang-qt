@@ -143,11 +143,9 @@ RowLayout{
 						target: game_loop
 
 						function onChatupdate(msg) {
-							console.log(msg)
 							chatmodel.append({message: msg})
 						}
 						function onPlayeradd(spl){
-							console.log(spl)
 
 							playermodel.append({player: spl, buttonsrc: ""})
 

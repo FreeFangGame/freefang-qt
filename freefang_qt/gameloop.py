@@ -72,7 +72,6 @@ class Game_loop(QObject):
 			self.chatupdate.emit("You have died, you are now a spectator")
 			if self.role == "Hunter":
 				self.chatupdate.emit("You were the hunter, pick a player to kill.")
-				print(f"Role: {self.role}")
 
 				self.setaction.emit("HunterKill")
 		self.getplayerbyname(packet.headers.name).alive = False
@@ -124,8 +123,6 @@ class Game_loop(QObject):
 
 	@Slot(str, result=bool)
 	def isalive(self, player):
-		print(player)
-		print(self.players)
 		spl = self.getplayerbyname(player)
 		return spl.alive
 		
@@ -170,7 +167,6 @@ class Game_loop(QObject):
 		
 	@Slot()
 	def start_game_loop(self):
-		print("Starting timer")
 		global_data.socket.setblocking(0)
 		self.timer = QTimer()
 		self.timer.setInterval(300)
