@@ -12,8 +12,6 @@ def parse_ruleset(ruleset):
 	for i in lines:
 		splt = i.split(":")
 		ret[splt[0]] = int(splt[1]) if splt[1].strip().isdigit() else splt[1]
-		
-	print(ret)
 	
 	return ret
 
