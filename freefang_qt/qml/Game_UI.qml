@@ -52,7 +52,6 @@ RowLayout{
 			 id: playermodel
 		}
 		id: gameui
-		anchors.fill: parent
 		spacing: 0
 		
 		Rectangle {
