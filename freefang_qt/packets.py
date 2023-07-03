@@ -68,3 +68,17 @@ class Protector_protect:
 		self.headers = {
 			"target": target
 		}
+
+class Witch_kill:
+	def __init__(self, target):
+		self.action = "witch_kill"
+		self.headers = {
+			"target": target
+		}
+
+class Witch_revive:
+	def __init__(self, target):
+		self.action = "witch_revive"
+		self.headers = {
+			"target": target
+		}

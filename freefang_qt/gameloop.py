@@ -22,6 +22,7 @@ class Game_loop(QObject):
 	# See Game_UI.qml
 
 	setaction = Signal(str, arguments=['action'])
+	witchaction = Signal(list, arguments=['nightdeaths'])
 	remove_buttons = Signal()
 	playername = ""
 	time = ""
@@ -56,6 +57,7 @@ class Game_loop(QObject):
 			"Seer": "SeerReveal",
 			"Hunter": "HunterKill",
 			"Protector": "ProtectorProtect"
+			#"Witch": "Witch_kill" # The signal function in the QML should also add the reive buttons
 		}
 		
 		btn = role_to_btn[packet.headers.role]
@@ -116,6 +118,13 @@ class Game_loop(QObject):
 	def handle_werewolf_vote(self, packet):
 		self.chatupdate.emit(f"{packet.headers.sender} votes for {packet.headers.target}")
 
+	# This function should be the one that creates the buttons allowing the witch to do its action
+	def handle_witch_send_dead(self, packet):
+		deadplayers = " ".join(packet.dead)
+		self.chatupdate.emit(f"The following players {deadplayers} died during this night.")
+		self.chatupdate.emit(f"Would you like to revive someone, kill someone else, or pass?")
+
+		self.witchaction.emit(packet.dead)
 		
 
 	def getplayerbyname(self, player):
@@ -141,7 +150,8 @@ class Game_loop(QObject):
 			"seer_role_reveal": self.handle_seer_role_reveal,
 			"town_vote_begin": self.begin_town_vote,
 			"player_leave": self.handle_leave,
-			"werewolf_vote": self.handle_werewolf_vote
+			"werewolf_vote": self.handle_werewolf_vote,
+			"witch_send_dead": self.handle_witch_send_dead
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -221,5 +231,15 @@ class Game_loop(QObject):
 		packet = utils.object_to_json(packets.Protector_protect(player))
 		net.send_packet(packet, global_data.socket)
 
-		
+	@Slot(str)
+	def witch_kill(self, player):
+		self.remove_buttons.emit()
+		packet = utils.object_to_json(packets.Witch_kill(player))
+		net.send_packet(packet, global_data.socket)		
+			
+	@Slot(str)
+	def witch_revive(self, player):
+		self.remove_buttons.emit()
+		packet = utils.object_to_json(packets.Witch_revive(player))
+		net.send_packet(packet, global_data.socket)		
 			
