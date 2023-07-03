@@ -4,7 +4,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name  = "freefang_qt"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Solaris", email="iusegentoobtw@protonmail.com" }
 ]
@@ -16,11 +16,11 @@ description = "A PySide client for the FreeFang werewolf gameserver."
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU General Public License v3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
 ]
 
 
 [project.urls]
-"Homepage" = "https://github.com/FreeFangGame/freefang-server"
-"Bug Tracker" = "https://github.com/FreeFangGame/freefang-server/issues"
+"Homepage" = "https://github.com/FreeFangGame/freefang-qt"
+"Bug Tracker" = "https://github.com/FreeFangGame/freefang-qt/issues"
