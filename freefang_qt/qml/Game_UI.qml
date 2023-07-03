@@ -174,5 +174,15 @@ RowLayout{
 								playermodel.get(i).buttonsrc = "";
 							}
 						}
+						function onWitchaction(deaths){
+							for( var i = 0; i < playermodel.rowCount(); i++ ) {
+								if (playermodel.get(i).player != game_loop.playername && game_loop.isalive(playermodel.get(i).player)){
+									playermodel.get(i).buttonsrc = "Witch_kill.qml";
+								} 
+								if(deaths.indexOf(playermodel.get(i).player) > -1){
+									playermodel.get(i).buttonsrc = "Witch_revive.qml"
+								}
+							}
+						}
 				}
 }
