@@ -166,6 +166,9 @@ RowLayout{
 								if (playermodel.get(i).player != game_loop.playername && game_loop.isalive(playermodel.get(i).player)){
 									playermodel.get(i).buttonsrc = btn;
 								}
+								if (act == "Werewolfvote" && game_loop.iswerewolf(playermodel.get(i).player)){
+									playermodel.get(i).buttonsrc = "";
+								}
 							}
 						}
 						function onRemove_buttons(){

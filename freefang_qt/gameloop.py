@@ -29,6 +29,7 @@ class Game_loop(QObject):
 	up = ""
 	role = ""
 	players = []
+	werewolves = [] #Only used if the player is a werewolf
 	game_started = False
 
 
@@ -125,6 +126,16 @@ class Game_loop(QObject):
 		self.chatupdate.emit(f"Would you like to revive someone, kill someone else, or pass?")
 
 		self.witchaction.emit(packet.dead)
+
+	# Handle the packet that is sent to all werewolves on game start
+	# Which contains the names of all other werewolves
+	def handle_show_werewolves(self, packet):
+		for i in packet.headers.werewolves:
+		 	if i != self.playername:
+					self.werewolves.append(i)
+			
+		if len(self.werewolves) > 0:
+			self.chatupdate.emit(f"Your fellow werewolves are {' '.join(self.werewolves)}")
 		
 
 	def getplayerbyname(self, player):
@@ -151,7 +162,8 @@ class Game_loop(QObject):
 			"town_vote_begin": self.begin_town_vote,
 			"player_leave": self.handle_leave,
 			"werewolf_vote": self.handle_werewolf_vote,
-			"witch_send_dead": self.handle_witch_send_dead
+			"witch_send_dead": self.handle_witch_send_dead,
+			"show_werewolves": self.handle_show_werewolves
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -243,3 +255,6 @@ class Game_loop(QObject):
 		packet = utils.object_to_json(packets.Witch_revive(player))
 		net.send_packet(packet, global_data.socket)		
 			
+	@Slot(str, result=bool)
+	def iswerewolf(self, player):
+		return player in self.werewolves
