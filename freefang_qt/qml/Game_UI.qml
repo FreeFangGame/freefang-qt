@@ -74,6 +74,7 @@ RowLayout{
 					height: 180
 					Layout.fillHeight: true
 					Layout.fillWidth: true
+					clip: true
 
 					ScrollBar.vertical.policy: ScrollBar.AsNeeded
 					ListView {
