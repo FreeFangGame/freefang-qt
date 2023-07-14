@@ -69,6 +69,7 @@ RowLayout{
 				height: parent.height
 				width: parent.width
 				ScrollView {
+					id: chatsv
 					height: 180
 					Layout.fillHeight: true
 					Layout.fillWidth: true
@@ -132,6 +133,7 @@ RowLayout{
 					id: players
 					model: playermodel
 					delegate: playerdelegate
+					clip: true
 
 				}
 
@@ -143,6 +145,7 @@ RowLayout{
 
 						function onChatupdate(msg) {
 							chatmodel.append({message: msg})
+							chatsv.contentItem.contentY = chatsv.contentItem.contentHeight;
 						}
 						function onPlayeradd(spl){
 
