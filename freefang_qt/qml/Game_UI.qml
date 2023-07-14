@@ -188,6 +188,10 @@ RowLayout{
 								if(deaths.indexOf(playermodel.get(i).player) > -1){
 									playermodel.get(i).buttonsrc = "Witch_revive.qml"
 								}
+								if (playermodel.get(i).player == game_loop.playername){
+									playermodel.get(i).buttonsrc = "Witchpassturnbtn.qml"
+
+								}
 							}
 						}
 				}

@@ -82,3 +82,10 @@ class Witch_revive:
 		self.headers = {
 			"target": target
 		}
+
+
+class Witch_pass_turn:
+	def __init__(self):
+		self.action = "witch_pass_turn"
+		self.headers = {
+		}

@@ -254,7 +254,13 @@ class Game_loop(QObject):
 		self.remove_buttons.emit()
 		packet = utils.object_to_json(packets.Witch_revive(player))
 		net.send_packet(packet, global_data.socket)		
-			
+	@Slot()
+	def witch_pass_turn(self):
+		self.remove_buttons.emit()
+		packet = utils.object_to_json(packets.Witch_pass_turn())
+		net.send_packet(packet, global_data.socket)		
+		
+				
 	@Slot(str, result=bool)
 	def iswerewolf(self, player):
 		return player in self.werewolves
