@@ -35,13 +35,14 @@ RowLayout{
 		}
 		Component {
 			id: chatdelegate
-			Item {
-				width: 200; height: 28
-				Label {
-					text: " " + message
-					color: "white"
+			Label {
+				id: chatlabel
+				width: chat.width
+				text: " " + message
+				color: "white"
 
-				}
+				wrapMode: Text.Wrap
+
 			}
 		}
 
