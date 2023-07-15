@@ -92,10 +92,12 @@ class Game_loop(QObject):
 			self.chatupdate.emit("The werewolves have won")
 		elif packet.headers.outcome == "town_win":
 			self.chatupdate.emit("The village has won")
-			
+		self.chatupdate.emit("Reminder you can press escape to quit!")
+
 	def handle_added_to_game(self, packet):
 		self.chatupdate.emit("You have joined the game")
 		self.chatupdate.emit(f"The game ID is: {packet.headers.gameid}")
+		self.chatupdate.emit("Press escape to quit!")
 
 		for i in packet.headers.players:
 			self.playeradd.emit(i)
@@ -284,3 +286,17 @@ class Game_loop(QObject):
 			self.remove_buttons.emit()
 			packet = utils.object_to_json(packets.Cupid_infatuate(self.lovers[0], self.lovers[1]))
 			net.send_packet(packet, global_data.socket)		
+
+	@Slot()
+	def quitgame(self):
+		self.timer.stop()
+		global_data.socket.close()
+		# Reset game to a blank state
+		self.playername = ""
+		self.time = ""
+		self.up = ""
+		self.role = ""
+		self.players = []
+		self.werewolves = [] #Only used if the player is a werewolf
+		self.game_started = False
+		self.lovers = []# used in self.cupid_ifatuate to determine if a first player was chosen.

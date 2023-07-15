@@ -2,9 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material 
-
+import QtQuick.Dialogs
 
 ApplicationWindow {
+	id: mainwin
     visible: true
     width: 700
     height: 500
@@ -15,6 +16,24 @@ ApplicationWindow {
 	property string gameserver: "127.0.0.1:9999"
 	property int playercap: 5
 	color: "#202020"
+
+	MessageDialog{
+		id: mainmenumd
+		text: "Are you sure you want to go back to the main menu?"
+    	buttons: MessageDialog.Ok | MessageDialog.Cancel	
+		onAccepted: {
+			stack.pop(null);
+			game_loop.quitgame();
+		}
+	}
+
+    Shortcut {
+        sequence: "Esc"
+        onActivated: {
+			mainmenumd.open();
+		}
+    }
+    
 	Connections {
 			target: game_creation_ui
 
@@ -102,6 +121,8 @@ ApplicationWindow {
 
 			
         }
+
+
         
 
 }
