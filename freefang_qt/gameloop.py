@@ -93,19 +93,21 @@ class Game_loop(QObject):
 			
 	def handle_added_to_game(self, packet):
 		self.chatupdate.emit("You have joined the game")
+		self.chatupdate.emit(f"The game ID is: {packet.headers.gameid}")
+
 		for i in packet.headers.players:
 			self.playeradd.emit(i)
 			spl = Player(i)
 			self.players.append(spl)
 		self.playername = packet.headers.username
 	def handle_player_join(self, packet):
-		self.chatupdate.emit(f"{packet.headers.name} joined the game")
+		self.chatupdate.emit(f"<font color=\"red\">{packet.headers.name}</font> joined the game")
 		self.playeradd.emit(packet.headers.name)
 		spl = Player(packet.headers.name)
 		self.players.append(spl)
 
 	def handle_chat_message(self, packet):
-		self.chatupdate.emit(f"{packet.headers.sender}: {packet.headers.message}")
+		self.chatupdate.emit(f"<font color=\"red\">{packet.headers.sender}</font>: {packet.headers.message}")
 		
 	def handle_seer_role_reveal(self, packet):
 		self.chatupdate.emit(f"{packet.headers.name} has the role {packet.headers.role}")
@@ -259,7 +261,7 @@ class Game_loop(QObject):
 		self.remove_buttons.emit()
 		packet = utils.object_to_json(packets.Witch_pass_turn())
 		net.send_packet(packet, global_data.socket)		
-		
+
 				
 	@Slot(str, result=bool)
 	def iswerewolf(self, player):

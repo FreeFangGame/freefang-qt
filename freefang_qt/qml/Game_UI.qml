@@ -36,9 +36,10 @@ RowLayout{
 		Component {
 			id: chatdelegate
 			Label {
+
 				id: chatlabel
 				width: chat.width
-				text: " " + message
+				text: message
 				color: "white"
 
 				wrapMode: Text.Wrap
@@ -69,17 +70,22 @@ RowLayout{
 				id: chatlayout
 				height: parent.height
 				width: parent.width
+
+
 				ScrollView {
 					id: chatsv
 					height: 180
+					Layout.leftMargin: 5
+
 					Layout.fillHeight: true
 					Layout.fillWidth: true
+					width: 1400
 					clip: true
+
 
 					ScrollBar.vertical.policy: ScrollBar.AsNeeded
 					ListView {
-						anchors.topMargin: 20
-						anchors.leftMargin: 50
+						spacing: 4
 						Layout.fillHeight: true
 						Layout.fillWidth: true
 					   
@@ -127,6 +133,7 @@ RowLayout{
 				height: parent.height
 			   
 				ScrollBar.vertical.policy: ScrollBar.AsNeeded
+			
 				ListView {
 					spacing: 13
 					Layout.fillHeight: true
