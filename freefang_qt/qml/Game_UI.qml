@@ -86,7 +86,7 @@ RowLayout{
 						id: chat
 						model: chatmodel
 						delegate: chatdelegate
-
+    					clip: true
 					}
 
 			   }
@@ -146,8 +146,9 @@ RowLayout{
 						target: game_loop
 
 						function onChatupdate(msg) {
+
 							chatmodel.append({message: msg})
-							chatsv.contentItem.contentY = chatsv.contentItem.contentHeight;
+							chatsv.ScrollBar.vertical.position = 1
 						}
 						function onPlayeradd(spl){
 
