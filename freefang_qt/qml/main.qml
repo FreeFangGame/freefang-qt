@@ -11,7 +11,7 @@ ApplicationWindow {
     height: 500
     visibility: "Maximized"
     title: "freefang-qt"
-    property string version: "0.1.1"
+    property string version: "0.4.0"
 	property string gameid: "Game ID here"
 	property string gameserver: "127.0.0.1:9999"
 	property int playercap: 5
