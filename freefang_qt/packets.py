@@ -89,3 +89,12 @@ class Witch_pass_turn:
 		self.action = "witch_pass_turn"
 		self.headers = {
 		}
+
+class Cupid_infatuate:
+	def __init__(self, targ1, targ2):
+		self.action = "cupid_infatuate"
+		self.headers = {
+			"target1": targ1,
+			"target2": targ2
+		}
+

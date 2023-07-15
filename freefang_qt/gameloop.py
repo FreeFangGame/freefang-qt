@@ -31,6 +31,7 @@ class Game_loop(QObject):
 	players = []
 	werewolves = [] #Only used if the player is a werewolf
 	game_started = False
+	lovers = []# used in self.cupid_ifatuate to determine if a first player was chosen.
 
 
 	def __init__(self):
@@ -57,7 +58,8 @@ class Game_loop(QObject):
 			"Werewolf": "Werewolfvote",
 			"Seer": "SeerReveal",
 			"Hunter": "HunterKill",
-			"Protector": "ProtectorProtect"
+			"Protector": "ProtectorProtect",
+			"Cupid": "Cupidinfatuate"
 			#"Witch": "Witch_kill" # The signal function in the QML should also add the reive buttons
 		}
 		
@@ -123,11 +125,11 @@ class Game_loop(QObject):
 
 	# This function should be the one that creates the buttons allowing the witch to do its action
 	def handle_witch_send_dead(self, packet):
-		deadplayers = " ".join(packet.dead)
+		deadplayers = " ".join(packet.headers.dead)
 		self.chatupdate.emit(f"The following players {deadplayers} died during this night.")
 		self.chatupdate.emit(f"Would you like to revive someone, kill someone else, or pass?")
 
-		self.witchaction.emit(packet.dead)
+		self.witchaction.emit(packet.headers.dead)
 
 	# Handle the packet that is sent to all werewolves on game start
 	# Which contains the names of all other werewolves
@@ -139,6 +141,8 @@ class Game_loop(QObject):
 		if len(self.werewolves) > 0:
 			self.chatupdate.emit(f"Your fellow werewolves are {' '.join(self.werewolves)}")
 		
+	def handle_player_coupled(self, packet):
+		self.chatupdate.emit(f"Cupid has coupled you with {packet.headers.lover}, if one of you dies then the other will also die from the grief.")
 
 	def getplayerbyname(self, player):
 		return [i for i in self.players if i.name == player][0]
@@ -165,7 +169,8 @@ class Game_loop(QObject):
 			"player_leave": self.handle_leave,
 			"werewolf_vote": self.handle_werewolf_vote,
 			"witch_send_dead": self.handle_witch_send_dead,
-			"show_werewolves": self.handle_show_werewolves
+			"show_werewolves": self.handle_show_werewolves,
+			"player_coupled": self.handle_player_coupled
 		}
 		if packet_to_func.get(packet.action):
 			packet_to_func[packet.action](packet)
@@ -266,3 +271,16 @@ class Game_loop(QObject):
 	@Slot(str, result=bool)
 	def iswerewolf(self, player):
 		return player in self.werewolves
+	@Slot(str)
+	def cupid_infatuate(self, player):
+		if (len(self.lovers) == 0):
+			self.lovers.append(player)
+			return
+		else:
+			if (self.lovers[0] == player):
+				return
+			
+			self.lovers.append(player)
+			self.remove_buttons.emit()
+			packet = utils.object_to_json(packets.Cupid_infatuate(self.lovers[0], self.lovers[1]))
+			net.send_packet(packet, global_data.socket)		
